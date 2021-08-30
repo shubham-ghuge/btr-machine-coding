@@ -1,0 +1,27 @@
+[
+  {
+    "id": "001",
+    "name": "Bread",
+    "price": 1.1
+  },
+  {
+    "id": "002",
+    "name": "Milk",
+    "price": 0.50
+  },
+  {
+    "id": "003",
+    "name": "Cheese",
+    "price": 0.90
+  },
+  {
+    "id": "004",
+    "name": "Soup",
+    "price": 0.60
+  },
+  {
+    "id": "005",
+    "name": "Butter",
+    "price": 1.20
+  }
+]
