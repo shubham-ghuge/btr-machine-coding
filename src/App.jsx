@@ -3,7 +3,7 @@ import { Cart } from "./features/Cart/Cart";
 
 function App() {
   return (
-    <div className="bg-gray-100 h-full flex justify-center items-center">
+    <div className="bg-gray-100 min-h-screen flex justify-center items-center">
       <Cart />
     </div>
   );
