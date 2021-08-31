@@ -66,10 +66,10 @@ export const CartSlice = createSlice({
             }
         },
         countTotal: (state) => {
-            state.cartTotal = state.cart.reduce((acc, item) => acc = acc + (item.price * item.quantity), 0).toFixed(2);
+            state.cartTotal = state.cart.reduce((acc, item) => acc = acc + (item.price * item.quantity), 0);
             state.cartDiscount = state.cart.reduce((acc, item) => {
-                let discount = item.discount ? item.discount : 0;
-                acc = acc + discount;
+                let discount = item.discount || 0;
+                acc = acc + Number(discount);
                 return acc;
             }, 0);
             state.finalAmount = (state.cartTotal - state.cartDiscount);

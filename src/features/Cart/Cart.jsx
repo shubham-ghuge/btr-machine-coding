@@ -15,9 +15,9 @@ function Cart() {
   }, [cart]);
 
   return (
-    <div className="box-border h-100 w-11/12 flex flex-col justify-center sm:h-5/6 sm:flex-row">
-      <div className="bg-white px-4">
-        <h2 className="text-2xl sm:text-4xl font-semibold my-4">Products</h2>
+    <div className="box-border h-full w-11/12 flex flex-col sm:items-start pt-4 sm:pt-8 justify-center sm:flex-row">
+      <div className="bg-white rounded-lg shadow px-4">
+        <h2 className="heading">Products</h2>
         <ul className="flex flex-col">
           {products &&
             products.map((product) => (
@@ -25,8 +25,8 @@ function Cart() {
             ))}
         </ul>
       </div>
-      <div className="bg-white px-4 sm:ml-10 sm:w-3/5">
-        <h2 className="text-2xl sm:text-4xl font-semibold mt-4 my-4">Basket</h2>
+      <div className="bg-white rounded-lg shadow px-4 mt-4 sm:mt-0 sm:ml-10 sm:w-3/5">
+        <h2 className="heading my-4">Basket</h2>
         {cart.length !== 0 ? (
           <>
             <ul className="flex flex-col">
@@ -37,10 +37,10 @@ function Cart() {
             </ul>
             <div>
               <p className="total">
-                Sub total: <span>&euro;{cartTotal}</span>
+                Sub total: <span>&euro;{cartTotal.toFixed(2)}</span>
               </p>
               <p className="total">
-                Savings: <span>&euro;{cartDiscount}</span>
+                Savings: <span>&euro;{cartDiscount.toFixed(2)}</span>
               </p>
               <p className="total">
                 Total Amount: <span>&euro;{finalAmount.toFixed(2)}</span>
