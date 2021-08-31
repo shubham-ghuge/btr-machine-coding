@@ -3,7 +3,6 @@ import { Quantity } from "./Quantity";
 
 function CartItem({ details }) {
   const { name, price, quantity, id, discount = 0 } = details;
-
   return (
     <li className="flex flex-col my-4">
       <div className="flex justify-between">
@@ -25,7 +24,9 @@ function CartItem({ details }) {
         </div>
       </div>
       {discount !== 0 && (
-        <div className="self-end mb-2 text-red-600 text-lg">savings &euro;{discount}</div>
+        <div className="self-end mb-2 text-red-600 text-lg">
+          savings &euro;{discount.toFixed(2)}
+        </div>
       )}
       <div className="self-end mb-2 text-lg">
         item cost &euro;{(quantity * price - discount).toFixed(2)}

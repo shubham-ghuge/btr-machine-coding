@@ -23,7 +23,7 @@ function ProductCard({ details }) {
                 }
               : {}
           }
-          onClick={() => dispatch(addToCart({ details }))}
+          onClick={() => dispatch(addToCart({ id: details.id }))}
         >
           {isInCart ? "Added" : "Add"}
         </button>

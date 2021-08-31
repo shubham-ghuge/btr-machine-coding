@@ -6,7 +6,8 @@ const initialState = {
     cart: [],
     cartTotal: 0,
     cartDiscount: 0,
-    finalAmount: 0
+    finalAmount: 0,
+    offers: []
 }
 
 export const CartSlice = createSlice({
@@ -14,60 +15,61 @@ export const CartSlice = createSlice({
     initialState,
     reducers: {
         addToCart: (state, action) => {
-            const { details } = action.payload;
-            let cartItem = { ...details, quantity: 1 }
-            if (details.name.toLowerCase() === "cheese") {
-                cartItem.discount = details.price;
-                cartItem.quantity = 2;
-            }
-            if (details.name.toLowerCase() === "soup") {
-                state.cart.forEach(item => {
-                    if (item.name.toLowerCase() === "bread") {
-                        item.discount = item.price / 2;
-                    }
-                })
-                const butterDetails = state.products.find(item => item.name.toLowerCase() === "butter");
-                let discount = (butterDetails.price * 1 / 3).toFixed(2);
-                if (!butterDetails.isInCart) {
-                    butterDetails.quantity = 1;
-                    butterDetails.discount = discount;
-                    state.cart.push(butterDetails);
-                }
-                state.cart.find(item => {
-                    if (item.name.toLowerCase() === "butter") {
-                        item.discount = discount;
-                        item.isInCart = true;
-                    }
-                })
-            }
-            state.cart.push(cartItem);
+            const { id } = action.payload;
+            state.cart.push(id)
             state.products.forEach(product => {
-                if (product.id === details.id) {
+                if (product.id === id) {
                     product.isInCart = true;
+                    product.quantity = 1;
+                }
+                if (id === "004" && product.id === "001") {
+                    product.discount = product.price / 2;
+                }
+                if (id === "003" && product.id === "003") {
+                    product.discount = product.price;
+                    product.quantity = 2;
                 }
             });
         },
         updateQuantity: (state, action) => {
-            const { id, quantity } = action.payload;
-            state.cart.forEach(product => {
-                if (product.id === id) {
-                    product.quantity = quantity;
+            let { id, quantity, flag = true } = action.payload;
+            state.products.forEach(item => {
+                if (id === "003" && item.id === "003" && quantity % 2 === 0) {
+                    if (flag) {
+                        item.discount = item.discount + item.price;
+                    } else {
+                        item.discount = item.discount - item.price;
+                    }
                 }
+                if (id === "005" && item.id === "005" && quantity % 3 === 0) {
+                    if (flag) {
+                        item.discount = (item.discount ?? 0) + item.price;
+                    } else {
+                        item.discount = (item.discount ?? 0) - item.price;
+                    }
+                }
+                if (id === "004" && !flag && item.id === "001") {
+                    item.discount = 0;
+                }
+                if (item.id === id) {
+                    item.quantity = quantity;
+                }
+
             })
             if (quantity === 0) {
-                state.products.forEach(product => product.id === id && (product.isInCart = false))
-            }
-            if (id === "004" && quantity === 0) {
-                state.cart.forEach(product => {
-                    if (product.name.toLowerCase() === "butter" || product.name.toLowerCase() === "bread") {
-                        product.discount = 0;
-                    }
-                })
+                state.products.forEach(product => product.id === id && (product.isInCart = false, product.quantity = 0))
+                state.cart = state.cart.filter(item => item !== id)
             }
         },
         countTotal: (state) => {
-            state.cartTotal = state.cart.reduce((acc, item) => acc = acc + (item.price * item.quantity), 0);
-            state.cartDiscount = state.cart.reduce((acc, item) => {
+            state.cartTotal = state.products.reduce((acc, item) => {
+                if (item.isInCart) {
+                    acc = acc + (item.price * item.quantity);
+                    return acc;
+                }
+                return acc;
+            }, 0);
+            state.cartDiscount = state.products.reduce((acc, item) => {
                 let discount = item.discount || 0;
                 acc = acc + Number(discount);
                 return acc;

@@ -10,13 +10,14 @@ function Cart() {
   );
 
   const dispatch = useDispatch();
+
   useEffect(() => {
     dispatch(countTotal());
-  }, [cart]);
+  }, [products]);
 
   return (
     <div className="box-border h-full w-11/12 flex flex-col pt-4 sm:pt-0 justify-center sm:flex-row">
-      <div className="bg-white rounded-lg shadow px-4">
+      <div className="bg-white self-start rounded-lg shadow px-4">
         <h2 className="heading">Products</h2>
         <ul className="flex flex-col">
           {products &&
@@ -30,8 +31,8 @@ function Cart() {
         {cart.length !== 0 ? (
           <>
             <ul className="flex flex-col">
-              {cart.map((item) => {
-                if (item.quantity !== 0)
+              {products.map((item) => {
+                if (item.quantity !== 0 && item.isInCart)
                   return <CartItem details={item} key={item.id} />;
               })}
             </ul>
