@@ -1,0 +1,3 @@
+.total {
+  @apply flex justify-between border-t py-2 text-lg border-gray-500;
+}
